@@ -1,7 +1,47 @@
 """Provides functions for Ising Hamiltonian/montecarlo sim"""
+import numpy as np
+
+class BitString:
+    """
+    Simple class to implement a config of bits
+    """
+    def __init__(self, N):
+        self.N = N
+        self.config = np.zeros(N, dtype=int) 
+
+    def __repr__(self):
+        return "".join([str(bit) for bit in self.config])
+
+    def __eq__(self, other):        
+        return self.int() == other.int() 
+    
+    def __len__(self):
+        return np.size(self.config)
+
+    def on(self):
+        return self.config.count(1)
+
+    def off(self):
+        return self.config.count(0)
+    
+    def flip_site(self,i):
+        self.config[i] = int(not(self.config[i]))
+    
+    def int(self):
+        return sum([(bit) * 2**i for i, bit in enumerate(reversed(self.config))])
+ 
+    def set_config(self, s:list[int]):
+        self.config = s
+        
+    def set_int_config(self, dec:int):
+        bit_string = []
+        for _ in range(self.N):
+            bit_string.insert(0, dec % 2)
+            dec //= 2
+        self.set_config(bit_string)
 
 class IsingHamiltonian:
-    def __init__(self, J=[[()]], mu=np.zeroes(1)):
+    def __init__(self, J=[[()]], mu=np.zeros(1)):
         self.J = J
         self.mu = mu
         self.nodes = []
@@ -39,10 +79,10 @@ class IsingHamiltonian:
             for j in self.J[i]:
                 if j[0] < i:
                     continue
-                if (bs.config[i] == bs.config[j]):
-                    e += J[1] 
+                if (bs.config[i] == bs.config[j[0]]):
+                    e += j[1] 
                 else:
-                    e -= J[0]
+                    e -= j[1]
         spins = [(-1)**(n+1) for n in bs.config]
         e += np.dot(self.mu, spins)
         return e
@@ -85,9 +125,9 @@ class IsingHamiltonian:
         Z = 0.0
         EE = 0.0
         MM = 0.0
-        for config in range(2**N):
+        for config in range(2**self.N):
             my_bs.set_int_config(config)
-            e = energy(my_bs, G)
+            e = self.energy(my_bs)
             m = magnetization(my_bs)
             Zi = np.exp(-1*e/T)
             E += e*Zi
