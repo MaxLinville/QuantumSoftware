@@ -11,7 +11,7 @@ Welcome to montecarlo's documentation!
     .. grid-item-card:: Getting Started
       :margin: 0 3 0 0
       
-      Learn the basics of using montecarlo.
+      Using the montecarlo package to run simulations on cool things
 
       .. button-link:: ./getting_started.html
          :color: primary
