@@ -9,7 +9,6 @@ dependencies:
   - numpy
   - matplotlib
 
-
     # Pip-only installs
   - pip:
        - sphinx-rtd-theme
