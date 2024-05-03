@@ -1,6 +1,6 @@
 # CHEM/PHYS 3684
 
-https://readthedocs.org/projects/<project-slug>/badge/?version=<version>&style=<style>
+https://readthedocs.org/projects/quantumsoftware-maxlinville/badge/?version=latest&style=plastic
 
 - [Syllabus](<Syllabus.md>)
 - [Command Line Tips](<Command Line Tips.md>)
